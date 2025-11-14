@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>静夜诗 - 诗篇</title>
+    <title>水调歌头 · 明月几时有</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,57 +13,78 @@
         }
 
         body {
-            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e);
-            color: #f0f0f0;
-            font-family: 'KaiTi', 'STKaiTi', 'SimSun', 'serif', -apple-system, BlinkMacSystemFont;
-            line-height: 1.8;
+            background: #0a0e1a;
+            color: #e8f5e9;
+            font-family: 'KaiTi', 'STKaiTi', 'SimSun', 'Georgia', serif;
+            line-height: 2.2;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
+            position: relative;
         }
 
-        .stars {
+        /* 动态月亮 */
+        .moon {
+            position: fixed;
+            top: 15%;
+            right: 10%;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, #fffbe6 20%, #ffd700 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 60px #ffd700,
+                0 0 120px rgba(255, 215, 0, 0.4),
+                inset -20px -20px 30px rgba(0,0,0,0.3);
+            z-index: 1;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(10px); }
+        }
+
+        /* 云雾飘动 */
+        .clouds {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
+            width: 200%;
+            height: 60%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300"><path fill="%23ffffff10" d="M0,150 Q100,100 200,130 T400,120 Q500,110 600,140 T800,130 L800,300 L0,300 Z"/></svg>') repeat-x;
+            animation: drift 60s linear infinite;
             z-index: 0;
+            pointer-events: none;
         }
 
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s infinite alternate;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.3; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.2); }
+        @keyframes drift {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
         }
 
         header {
             text-align: center;
-            padding: 3rem 1rem 2rem;
+            padding: 4rem 1rem 2rem;
             position: relative;
             z-index: 10;
         }
 
         .title {
-            font-size: 2.8rem;
+            font-size: 3.iamen;
             font-weight: 300;
-            letter-spacing: 8px;
+            letter-spacing: 12px;
             margin-bottom: 0.5rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            text-shadow: 0 3px 15px rgba(0,0,0,0.4);
+            color: #d4edda;
         }
 
         .subtitle {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             opacity: 0.8;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
+            font-family: 'Helvetica Neue', sans-serif;
         }
 
         .poem-container {
@@ -71,57 +92,80 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 3rem 1rem;
             position: relative;
             z-index: 10;
         }
 
         .poem {
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 3rem 2.5rem;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 3.5rem 3rem;
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             text-align: center;
-            animation: fadeIn 2s ease-out;
+            animation: fadeInUp 1.8s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .poem h1 {
-            font-size: 2.2rem;
-            margin-bottom: 2rem;
-            color: #e0e7ff;
-            letter-spacing: 2px;
+            font-size: 2.4rem;
+            margin-bottom: 2.5rem;
+            color: #c3e6cb;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        .poem h1::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #8bc34a, transparent);
         }
 
         .poem p {
-            font-size: 1.35rem;
-            margin: 1.2rem 0;
+            font-size: 1.5rem;
+            margin: 1.6rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            position: relative;
+        }
+
+        .poem p.visible {
             opacity: 0.95;
-            transition: all 0.3s ease;
+            transform: translateY(0);
         }
 
         .poem p:hover {
-            color: #c3dafe;
-            text-shadow: 0 0 8px rgba(195, 218, 254, 0.5);
+            color: #d1e7ddb0;
+            text-shadow: 0 0 12px rgba(139, 195, 74, 0.6);
         }
 
         .author {
-            margin-top: 2.5rem;
-            font-size: 1.1rem;
+            margin-top: 3rem;
+            font-size: 1.2rem;
             opacity: 0.7;
             font-style: italic;
+            letter-spacing: 2px;
         }
 
         footer {
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 2.5rem 1rem;
             font-size: 0.9rem;
             opacity: 0.6;
             position: relative;
@@ -134,14 +178,14 @@
             right: 30px;
             width: 50px;
             height: 50px;
-            background: rgba(100, 150, 255, 0.3);
-            backdrop-filter: blur(5px);
+            background: rgba(139, 195, 74, 0.25);
+            backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #c3e6cb;
             font-size: 1.3rem;
             cursor: pointer;
             opacity: 0;
@@ -156,22 +200,33 @@
         }
 
         .back-to-top:hover {
-            background: rgba(100, 150, 255, 0.6);
+            background: rgba(139, 195, 74, 0.5);
             transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(139, 195, 74, 0.4);
         }
 
         @media (max-width: 768px) {
-            .title { font-size: 2.2rem; letter-spacing: 5px; }
-            .poem { padding: 2rem 1.5rem; }
-            .poem h1 { font-size: 1.8rem; }
+            .title { font-size: 2.2rem; letter-spacing: 6px; }
+            .subtitle { font-size: 1rem; }
+            .poem { padding: 2.5rem 2rem; }
+            .poem h1 { font-size: 2rem; }
+            .poem p { font-size: 1.3rem; }
+            .moon { width: 80px; height: 80px; top: 10%; right: 5%; }
+        }
+
+        @media (max-width: 480px) {
+            .title { font-size: 1.8rem; }
             .poem p { font-size: 1.2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 动态星空背景 -->
-    <div class="stars" id="stars"></div>
+    <!-- 动态云雾 -->
+    <div class="clouds"></div>
+
+    <!-- 月亮 -->
+    <div class="moon"></div>
 
     <!-- 返回顶部 -->
     <div class="back-to-top" onclick="scrollToTop()" aria-label="返回顶部">
@@ -180,45 +235,43 @@
 
     <!-- 页眉 -->
     <header>
-        <h1 class="title">静夜诗</h1>
-        <p class="subtitle">一页诗，一夜静</p>
+        <h1 class="title">水调歌头</h1>
+        <p class="subtitle">丙辰中秋，欢饮达旦，大醉，作此篇，兼怀子由。</p>
     </header>
 
     <!-- 诗篇主体 -->
     <main class="poem-container">
         <article class="poem">
-            <h1>相思</h1>
-            <p>忽悠古人心上过，</p>
-            <p>回首山河已是秋。</p>
-            <p>两处相思同淋雪，</p>
-            <p>此生也算共白头。</p>
-            <p class="author">—— 李白</p>
+            <h1>明月几时有</h1>
+            <p>明月几时有？</p>
+            <p>把酒问青天。</p>
+            <p>不知天上宫阙，</p>
+            <p>今夕是何年。</p>
+            <p>我欲乘风归去，</p>
+            <p>又恐琼楼玉宇，</p>
+            <p>高处不胜寒。</p>
+            <p>起舞弄清影，</p>
+            <p>何似在人间。</p>
+            <p>转朱阁，</p>
+            <p>低绮户，</p>
+            <p>照无眠。</p>
+            <p>不应有恨，</p>
+            <p>何事长向别时圆？</p>
+            <p>人有悲欢离合，</p>
+            <p>月有阴晴圆缺，</p>
+            <p>此事古难全。</p>
+            <p>但愿人长久，</p>
+            <p>千里共婵娟。</p>
+            <p class="author">—— 苏轼</p>
         </article>
     </main>
 
     <!-- 页脚 -->
     <footer>
-        <p>© 2025 静夜诗 · 仅供欣赏</p>
+        <p>© 2025 水调歌头 · 诗意永存</p>
     </footer>
 
     <script>
-        // 生成星空
-        const starsContainer = document.getElementById('stars');
-        const starCount = 80;
-
-        for (let i = 0; i < starCount; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random() * 3 + 1;
-            star.style.width = `${size}px`;
-            star.style.height = `${size}px`;
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.animationDelay = `${Math.random() * 3}s`;
-            star.style.animationDuration = `${Math.random() * 2 + 2}s`;
-            starsContainer.appendChild(star);
-        }
-
         // 返回顶部
         const backToTop = document.querySelector('.back-to-top');
         window.addEventListener('scroll', () => {
@@ -229,17 +282,13 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 诗行逐字浮现（可选）
+        // 诗行逐句浮现
         document.addEventListener('DOMContentLoaded', () => {
-            const lines = document.querySelectorAll('.poem p:not(.author)');
+            const lines = document.querySelectorAll('.poem p');
             lines.forEach((line, index) => {
-                line.style.opacity = '0';
-                line.style.transform = 'translateY(20px)';
                 setTimeout(() => {
-                    line.style.transition = 'all 0.8s ease-out';
-                    line.style.opacity = '1';
-                    line.style.transform = 'translateY(0)';
-                }, 800 + index * 400);
+                    line.classList.add('visible');
+                }, 300 + index * 180);
             });
         });
     </script>
